@@ -142,7 +142,11 @@ def main():
 	### Load and Process Input Data ###
 	###################################
 
-	df = pd.read_csv(args.df, sep=args.sep, index_col=0)
+	#df = pd.read_csv(args.df, sep=args.sep, index_col=0)
+	# load data using fread, incase dataframe is too large A.Schumacher 03/17/22
+	df = dt.fread(args.df,header=True,sep=args.sep)
+	df = df.to_pandas()
+	df = df.set_index(df.columns[0], drop=True)
 
 	# If features  and class info are in separate files, merge them: 
 	if args.df2 != '':
